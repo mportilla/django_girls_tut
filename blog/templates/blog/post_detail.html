@@ -10,5 +10,15 @@
         <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaks }}</p>
+        <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
     </div>
+    <div class="row">
+    {% for comment in comments %}
+        <p> {{ comment.created_date }}</p>
+        <p> {{ comment.text }}</p>
+    {% endfor %}
+</div>
 {% endblock %}
