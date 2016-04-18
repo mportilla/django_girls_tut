@@ -1,12 +1,18 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.utils import timezone
 from .models import Post,Comment
-from .forms import PostForm,CommentForm
+from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from  django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 
 
 # Create your views here.
+class LoginRequiredMixin(object):
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(LoginRequiredMixin, cls).as_view(**initkwargs)
+        return login_required(view,login_url='login')
+
 class PostList(ListView):
     context_object_name = 'posts'
     def get_queryset(self):
@@ -14,6 +20,26 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
+
+    def get_context_data(self,**kwargs):
+        # Call the base implementation first to get a context
+        context = super(PostDetail, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['comments'] = Comment.objects.filter(post=self.object).order_by('created_date')
+        return context
+
+    def post(self,request, *args,**kwargs):
+        if request.user.is_authenticated():
+           form = CommentForm(request.POST)
+           post = self.get.object()
+           if form.is_valid():
+               comment = form.save(commit=False)
+               comment.author = request.user
+               comment.post = post
+               comment.save()
+               return redirect('post_detail', pk=post.pk)
+        else:
+           return redirect('login')
 
 #def post_detail(request, pk): 
  #       post = get_object_or_404(Post, pk=pk) 
@@ -31,7 +57,7 @@ class PostDetail(DetailView):
 
         #return render(request, 'blog/post_detail.html', {'post': post,'comments':comments,'form':form})
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin,CreateView):
     model = Post
     fields = ['title','text']
     template_name = 'blog/post_edit.html'
@@ -57,7 +83,7 @@ class PostCreate(CreateView):
 # #    else:
 # #        form = PostForm()
 #  #   return render(request, 'blog/post_edit.html', {'form': form})
-class PostEdit(UpdateView):
+class PostEdit(LoginRequiredMixin,UpdateView):
     model = Post 
     fields = ['title','text']
     template_name = 'blog/post_edit.html'
@@ -65,7 +91,7 @@ class PostEdit(UpdateView):
     def get_success_url(self):
         return reverset ('post_detail',kwargs={'pk': self.object.pk})
 
-class PostDelete(DeleteView):
+class PostDelete(LoginRequiredMixin,DeleteView):
     model = Post
 
     def get_success_url(self):
