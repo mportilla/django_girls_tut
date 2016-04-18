@@ -4,6 +4,8 @@ from .models import Post,Comment
 from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate
 
 
 
