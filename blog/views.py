@@ -3,10 +3,11 @@ from django.utils import timezone
 from .models import Post,Comment
 from .forms import PostForm,CommentForm
 from django.contrib.auth.decorators import login_required
+from  django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 
 
 # Create your views here.
-class PostList(LisView):
+class PostList(ListView):
     context_object_name = 'posts'
     def get_queryset(self):
         queryset = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -56,6 +57,21 @@ class PostCreate(CreateView):
 # #    else:
 # #        form = PostForm()
 #  #   return render(request, 'blog/post_edit.html', {'form': form})
+class PostEdit(UpdateView):
+    model = Post 
+    fields = ['title','text']
+    template_name = 'blog/post_edit.html'
+
+    def get_success_url(self):
+        return reverset ('post_detail',kwargs={'pk': self.object.pk})
+
+class PostDelete(DeleteView):
+    model = Post
+
+    def get_success_url(self):
+        return reverset ('post_list')
+
+
 
 # @login_required(login_url='login')
 # def post_edit(request, pk):
