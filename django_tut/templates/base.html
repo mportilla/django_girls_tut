@@ -6,14 +6,17 @@
         <title>Django Girls blog</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="{% static 'blog.css' %}">
+        
         <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">
-                        Django Blog
-                    </a>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+        
+    </head>
+    <body>
+    <div class="page-header">
+
+            <h1>Django Blog</h1>
+ <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span>
                 </div>
                 <div class="collapse navbar-collapse">
                     <{% if user.is_authenticated %}
@@ -24,9 +27,7 @@
                 </div>
 
 
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-    </head>
-    <body>
+        </a>
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
