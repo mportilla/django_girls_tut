@@ -139,13 +139,13 @@ class PostEdit(LoginRequiredMixin,UpdateView):
     template_name = 'blog/post_edit.html'
 
     def get_success_url(self):
-        return reverset ('post_detail',kwargs={'pk': self.object.pk})
+        return reverse('post_detail',kwargs={'pk': self.object.pk})
 
 class PostDelete(LoginRequiredMixin,DeleteView):
     model = Post
 
     def get_success_url(self):
-        return reverset ('post_list')
+        return reverse('post_list')
 
 
 
