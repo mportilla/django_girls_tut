@@ -6,8 +6,6 @@ from django.contrib.auth.decorators import login_required
 from  django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 
 
-# Create your views here.
-<<<<<<< HEAD
 
 def post_list(request):
         posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -29,34 +27,34 @@ def post_detail(request, pk):
 
         return render(request, 'blog/post_detail.html', {'post': post,'comments':comments,'form':form})
 
-@login_required(login_url='login')
-def post_new(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('blog.views.post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'blog/post_edit.html', {'form': form})
+# @login_required(login_url='login')
+# def post_new(request):
+#     if request.method == "POST":
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.author = request.user
+#             post.published_date = timezone.now()
+#             post.save()
+#             return redirect('blog.views.post_detail', pk=post.pk)
+#     else:
+#         form = PostForm()
+#     return render(request, 'blog/post_edit.html', {'form': form})
 
-@login_required(login_url='login')
-def post_edit(request, pk):
-        post = get_object_or_404(Post, pk=pk)
-        if request.method == "POST":
-            form = PostForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.author = request.user
-                post.save()
-            return redirect('blog.views.post_detail', pk=post.pk)
-        else:
-            form = PostForm(instance=post)
-        return render(request, 'blog/post_edit.html', {'form': form,'post':post})
-=======
+# @login_required(login_url='login')
+# def post_edit(request, pk):
+#         post = get_object_or_404(Post, pk=pk)
+#         if request.method == "POST":
+#             form = PostForm(request.POST, instance=post)
+#             if form.is_valid():
+#                 post = form.save(commit=False)
+#                 post.author = request.user
+#                 post.save()
+#             return redirect('blog.views.post_detail', pk=post.pk)
+#         else:
+#             form = PostForm(instance=post)
+#         return render(request, 'blog/post_edit.html', {'form': form,'post':post})
+
 class LoginRequiredMixin(object):
     @classmethod
     def as_view(cls, **initkwargs):
@@ -162,7 +160,7 @@ class PostDelete(LoginRequiredMixin,DeleteView):
 #         else:
 #             form = PostForm(instance=post)
 #         return render(request, 'blog/post_edit.html', {'form': form})
->>>>>>> dev
+
 
 
 # @login_required(login_url='login')
