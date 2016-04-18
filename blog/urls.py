@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from . import views
 from contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 urlpatterns = [
         url(r'^$', views.PostList.as_View()),
