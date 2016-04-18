@@ -65,7 +65,7 @@ class PostList(ListView):
     context_object_name = 'posts'
     def get_queryset(self):
         queryset = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-
+        return queryset
 class PostDetail(DetailView):
     model = Post
 
