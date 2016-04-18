@@ -116,7 +116,7 @@ class PostCreate(LoginRequiredMixin,CreateView):
         return super(PostCreate,self).form_valid(form)
 
     def get_success_url(self):
-        return reverset('post_detail',kwargs={'pk': self.object.pk})
+        return reverse('post_detail',kwargs={'pk': self.object.pk})
 
 # @login_required(login_url='login')
 # def post_new(request):
