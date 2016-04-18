@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-{% if request.user == post.author or user.is_superuser %}
+<!-- {% if request.user == post.author or user.is_superuser %} -->
     <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"> Borrar</a>
-{% endif %}
+<!-- {% endif %} -->
 
 <div class=row>
     <h1>{{ post.title }}</h1>
